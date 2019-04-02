@@ -113,7 +113,7 @@ public class ControllerServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 			bookDAO.deleteBook(id);
 
-			response.sendRedirect("delete");
+			response.sendRedirect("list");
 		}
 
 	/**
