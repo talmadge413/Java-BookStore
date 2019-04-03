@@ -1,9 +1,11 @@
 package com.pluralsight;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -64,6 +66,9 @@ public class ControllerServlet extends HttpServlet {
           break;
 				case "/edit":
 					showEditForm(request, response);
+          break;
+				case "/update":
+					updateBook(request, response);
           break;
         default:
 				   listBooks(request, response);
@@ -126,6 +131,19 @@ public class ControllerServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
 			request.setAttribute("book", existingBook);
 			dispatcher.forward(request, response);
+		}
+	
+	private void updateBook(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("booktitle");
+			String author = request.getParameter("bookauthor");
+			String price = request.getParameter("bookprice");
+
+			Book newBook = new Book(id, title, author, Float.parseFloat(price));
+
+			bookDAO.updateBook(newBook);
+			response.sendRedirect("list");
 		}
 
 
